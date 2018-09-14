@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 from __future__ import print_function
 from googleapiclient.discovery import build
 from httplib2 import Http
@@ -54,7 +55,11 @@ def main():
             sDate = sTitle.split(' ')[2]
         except IndexError as e:
             continue
-        date = int(time.mktime(datetime.datetime.strptime(sDate, "%Y/%m/%d").timetuple()))
+        try:
+            date = int(time.mktime(datetime.datetime.strptime(sDate, "%Y/%m/%d").timetuple()))
+        except ValueError as e:
+            print("skipping %s it is not a date"%(sDate,))
+            continue
 
         print("++"+sessionType+"++")
         print(str(date))
@@ -134,6 +139,7 @@ def main():
                     continue
                 if len(row) == 6: # New log
                     steepness.append(row[3])
+                    print(row[3])
                     #take only the first hold type
                     holdType.append(row[4][0].lower())
                     comment.append(row[5])
@@ -164,6 +170,7 @@ def main():
                 
                 steep = 0
                 steepCount = 0
+                print(steepness)
                 if '\\' in steepness[-1]:
                     steep += 1
                     steepCount += 1
@@ -182,50 +189,73 @@ def main():
                 dbData.append((str(dbSessions), grade[-1], tries[-1], sent[-1], steepness[-1], holdType[-1], comment[-1]))
             dbc.executemany("insert into boulder(sessionID,grade,tries,sent,steepness,holdType,comment) values (?,?,?,?,?,?,?)",dbData)
 
-                
-
-
-        #Training
-        if sessionType != "Strength":
-            print("--"+sessionType+"--"+"Strength"+"--")
-            continue
-        strengthRange = sTitle+'!A10:C30'
-        strengthResult = service.spreadsheets().values().get(spreadsheetId=SPREADSHEET_ID, range=strengthRange).execute()
-        values = strengthResult.get('values', [])
-        exersises = []
-        eSets = []
-        reps = []
-        dbData = []
-        ex = column(values,0)
-        for e in ex:
-            if e != "":
-                allExersises.add(e)
-            try:
-                dbc.execute("insert into exersises(name) values (?)",(e,))
-            except sqlite3.IntegrityError:
-                continue
-
-        for row in values:
-            try:
-                if row[0] != "":
-                    exersises.append(row[0])
-                    eSets.append(int(row[1]))
-                    reps.append(int(row[2]))
-                    print("%s %u %u"%(exersises[-1],eSets[-1],reps[-1]))
-                    dbc.execute("select ID from exersises where name = ?",(exersises[-1],))
-                    exId = dbc.fetchone()[0]
-                    dbData.append((str(dbSessions),exId,eSets[-1],reps[-1]))
-            except IndexError as e:
-                continue
-        dbc.executemany("insert into training(sessionID,exersiseID,sets,reps) values (?,?,?,?)",dbData)
-
-
-            #for row in values:
-            #    # Print columns A and E, which correspond to indices 0 and 4.
-            #      
-            #    if str(row[0]) !="":
-            #        print('%s' % (row[0]))
     dbConn.commit()
+
+    #Workoutlog import
+    workOutLogCon = sqlite3.connect("./workoutlog/workoutlog.bak")
+    workOutLogc = workOutLogCon.cursor()
+    workOutLogc.execute("select workouts.exercise, workouts.date, reps.rep, reps.weight, categories.category, workouts.id  from reps inner join workouts on workouts.id=reps.date_id inner join exercisetocategory on workouts.exercise=exercisetocategory.exercise inner join categories on categories.id=exercisetocategory.category_id;")
+    ex = workOutLogc.fetchall()
+    dateId = None
+    skipDate = False
+    date = None
+    for exSet in ex:
+        exName = exSet[0]
+        sDate = exSet[1]
+        exReps = exSet[2]
+        exWeight = exSet[3]
+        exGroup = exSet[4]
+        oldDateId = dateId
+        dateId = exSet[5]
+            
+        workOutLogc.execute("select count(date_id) from reps where date_id=? group by date_id",(dateId,))
+        exSets = workOutLogc.fetchone()[0]
+        print(exSets)
+        oldDate = date
+        date = int(time.mktime(datetime.datetime.strptime(sDate, "%Y-%m-%d").timetuple()))
+        if date == skipDate:
+            print("skipping date %s id %s"%(sDate, dateId))
+            continue
+        workOutLogc.execute("select max(time),min(time) from workouts where date=?",(exSet[1],))
+        durTup = workOutLogc.fetchone()
+        print(durTup)
+        dur = datetime.datetime.strptime(durTup[0],"%H:%M") - datetime.datetime.strptime(durTup[1],"%H:%M")
+        dur = dur.seconds/3600.0
+        print(dur)
+        
+
+        dbc.execute('select date from sessions where date=?', (str(date),))
+        dbSessions = dbc.fetchone()
+        if dbSessions == None:
+            dbc.execute("insert into sessions(date,type,climbDuration,density,sum,avgGrade,avgSent,trainingDuration) values (?,?,?,?,?,?,?,?)",(date,"Strength",0,0,0,0,0,dur))
+            dbc.execute('select ID from sessions where date=?', (str(date),))
+            dbSessions = dbc.fetchone()[0]
+        elif oldDate != date:
+            print("skipping date %s id %s"%(sDate, dateId))
+            skipDate = date
+            continue
+            
+            
+
+        try:
+            dbc.execute("insert into exersises(name,muscleGroup) values (?,?)",(exName,exGroup))
+        except sqlite3.IntegrityError:
+            pass
+        dbc.execute("select ID from exersises where name = ?",(exName,))
+        exId = dbc.fetchone()[0]
+        if oldDateId != dateId:
+            dbc.execute("insert into training(sessionID,exersiseID,sets) values (?,?,?)",(str(dbSessions),str(exId),str(exSets)))
+            dbc.execute("select max(ID) from training")
+            trainID = dbc.fetchone()[0]
+            print(trainID)
+        dbc.execute("insert into sets(trainingID,reps,weight) values (?,?,?)",(str(trainID),str(exReps),str(exWeight)))
+        
+
+
+    print(ex)
+    dbConn.commit()
+    workOutLogCon.close()
+
     dbConn.close()
 
 if __name__ == '__main__':
