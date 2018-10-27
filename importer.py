@@ -194,7 +194,7 @@ def main():
     #Workoutlog import
     workOutLogCon = sqlite3.connect("./workoutlog/workoutlog.bak")
     workOutLogc = workOutLogCon.cursor()
-    workOutLogc.execute("select workouts.exercise, workouts.date, reps.rep, reps.weight, categories.category, workouts.id  from reps inner join workouts on workouts.id=reps.date_id inner join exercisetocategory on workouts.exercise=exercisetocategory.exercise inner join categories on categories.id=exercisetocategory.category_id;")
+    workOutLogc.execute("select workouts.exercise, workouts.date, reps.rep, reps.weight, categories.category, workouts.id, workouts.comment  from reps inner join workouts on workouts.id=reps.date_id inner join exercisetocategory on workouts.exercise=exercisetocategory.exercise inner join categories on categories.id=exercisetocategory.category_id;")
     ex = workOutLogc.fetchall()
     dateId = None
     skipDate = False
@@ -207,6 +207,7 @@ def main():
         exGroup = exSet[4]
         oldDateId = dateId
         dateId = exSet[5]
+        comment = exSet[6]
             
         workOutLogc.execute("select count(date_id) from reps where date_id=? group by date_id",(dateId,))
         exSets = workOutLogc.fetchone()[0]
@@ -224,7 +225,7 @@ def main():
         print(dur)
         
 
-        dbc.execute('select date from sessions where date=?', (str(date),))
+        dbc.execute('select ID from sessions where date=?', (str(date),))
         dbSessions = dbc.fetchone()
         if dbSessions == None:
             dbc.execute("insert into sessions(date,type,climbDuration,density,sum,avgGrade,avgSent,trainingDuration) values (?,?,?,?,?,?,?,?)",(date,"Strength",0,0,0,0,0,dur))
@@ -244,7 +245,7 @@ def main():
         dbc.execute("select ID from exersises where name = ?",(exName,))
         exId = dbc.fetchone()[0]
         if oldDateId != dateId:
-            dbc.execute("insert into training(sessionID,exersiseID,sets) values (?,?,?)",(str(dbSessions),str(exId),str(exSets)))
+            dbc.execute("insert into training(sessionID,exersiseID,sets,comment) values (?,?,?,?)",(str(dbSessions),str(exId),str(exSets),str(comment)))
             dbc.execute("select max(ID) from training")
             trainID = dbc.fetchone()[0]
             print(trainID)
