@@ -1,4 +1,9 @@
 version: '2' 
+build:
+  context: .
+  image: logicalprogression:latest
+  labels:
+    - "com.centurylinklabs.watchtower.enable=false"
 services:
   logicalprogression:
     container_name: logicalprogression 
