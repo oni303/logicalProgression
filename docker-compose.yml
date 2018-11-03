@@ -1,0 +1,12 @@
+version: '2' 
+services:
+  logicalprogression:
+    container_name: logicalprogression 
+    image: logicalprogression
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    ports:
+      - "5000:5000"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"

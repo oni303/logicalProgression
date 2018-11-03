@@ -1,0 +1,5 @@
+Flask
+wtforms
+requests
+pymysql
+PyYAML

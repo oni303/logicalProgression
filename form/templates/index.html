@@ -1,0 +1,155 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Radio buttons - jQuery Mobile Demos</title>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<link rel="stylesheet" href="static/css/themes/default/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="static/_assets/css/jqm-demos.css">
+	<script src="static/js/jquery.js"></script>
+	<script src="static/_assets/js/index.js"></script>
+	<script src="static/js/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+      window.onload = function(){
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //January is 0!
+      var yyyy = today.getFullYear();
+
+      if(dd<10) {
+         dd = '0'+dd
+      } 
+      if(mm<10) {
+        mm = '0'+mm
+      } 
+      today =  yyyy + '-' + mm + '-' + dd;
+      document.querySelector('#date-1').value = today;
+      };
+    </script>
+</head>
+<body>
+    <form method="post" action="" role="form">
+      <fieldset data-role="controlgroup" data-type="horizontal">
+        <legend>Type of Session:</legend>
+        <input type="radio" name="sessionType" id="sessionType1" value="Strength" checked="checked">
+        <label for="sessionType1">Strength</label>
+        <input type="radio" name="sessionType" id="sessionType2" value="Endurance">
+        <label for="sessionType2">Endurance</label>
+        <input type="radio" name="sessionType" id="sessionType3" value="Bouldering">
+        <label for="sessionType3">Boudler</label>
+      </fieldset>
+
+      <label for="date-1">Date of Session</label>
+      <input type="date" data-clear-btn="false" name="date-1" id="date-1">
+
+      <label for="sessoionDuration">Session Duration:</label>
+      <input type="range" name="sessionDuration" id="sessionDuration" data-highlight="true" min="0" max="4" value="1">
+
+
+<button type="button" data-icon="plus" data-iconpos="right" data-mini="true" data-inline="true" id="expand">Expand last</button>
+<button type="button" data-icon="minus" data-iconpos="right" data-mini="true" data-inline="true" id="collapse">Collapse last</button>
+
+<div data-role="collapsibleset" data-content-theme="a" data-iconpos="right" id="set">
+    <script>
+      $( document ).on( "pagecreate", function() {
+          var nextId = 0;
+          add();
+      function add() {
+         nextId++;
+         var content = `<div data-role='collapsible' id='set` + nextId + `'><h3>Route ` + nextId + `</h3>
+
+
+    <fieldset data-role='controlgroup' data-type='horizontal'>
+      <legend>Grade:</legend>
+      <input type='radio' name='grade_` + nextId + `' id='grade_1_` + nextId + `' value='1'  checked='checked'>
+      <label for='grade_1_` + nextId + `'>White</label>
+      <input type='radio' name='grade_` + nextId + `' id='grade_2_` + nextId + `' value='2' >
+      <label for='grade_2_` + nextId + `'>Yellow</label>
+      <input type='radio' name='grade_` + nextId + `' id='grade_3_` + nextId + `' value='3' >
+      <label for='grade_3_` + nextId + `'>Green</label>
+      <input type='radio' name='grade_` + nextId + `' id='grade_4_` + nextId + `' value='5' >
+      <label for='grade_4_` + nextId + `'>Blue</label>
+      <input type='radio' name='grade_` + nextId + `' id='grade_5_` + nextId + `' value='7' >
+      <label for='grade_5_` + nextId + `'>Red</label>
+    </fieldset>
+
+    <fieldset data-role='controlgroup' data-type='horizontal'>
+      <input type='radio' name='subGrade_` + nextId + `' id='subGradeNormal_` + nextId + `' value='Normal' checked='checked' >
+      <label for='subGradeNormal_` + nextId + `'>Normal</label>
+      <input type='radio' name='subGrade_` + nextId + `' id='subGradeHard_` + nextId + `' value='Hard' >
+      <label for='subGradeHard_` + nextId + `'>Hard</label>
+    </fieldset>
+
+    <div class='ui-grid-a'>
+      <div class='ui-block-a'><div class='ui-bar ui-bar-a'>
+
+          <fieldset data-role='controlgroup' data-mini='true'>
+            <legend>Hold Type</legend>
+            <input type='radio' name='holdType_` + nextId + `' id='holdType_1_` + nextId + `' value='h' checked='checked'>
+            <label for='holdType_1_` + nextId + `'>Jugs</label>
+            <input type='radio' name='holdType_` + nextId + `' id='holdType_2_` + nextId + `' value='p'>
+            <label for='holdType_2_` + nextId + `'>Pinches</label>
+            <input type='radio' name='holdType_` + nextId + `' id='holdType_3_` + nextId + `' value='l'>
+            <label for='holdType_3_` + nextId + `'>Edges</label>
+            <input type='radio' name='holdType_` + nextId + `' id='holdType_4_` + nextId + `' value='s'>
+            <label for='holdType_4_` + nextId + `'>Sloper</label>
+            <input type='radio' name='holdType_` + nextId + `' id='holdType_5_` + nextId + `' value='v'>
+            <label for='holdType_5_` + nextId + `'>Volumes</label>
+            <input type='radio' name='holdType_` + nextId + `' id='holdType_6_` + nextId + `' value='f'>
+            <label for='holdType_6_` + nextId + `'>Pockets</label>
+            <input type='radio' name='holdType_` + nextId + `' id='holdType_7_` + nextId + `' value='u'>
+            <label for='holdType_7_` + nextId + `'>Undercling</label>
+          </fieldset>
+          
+      </div></div>
+      <div class='ui-block-b'><div class='ui-bar ui-bar-a' >
+          <label for='steepness_` + nextId + `'>Steepness:</label>
+          <input type='range' name='steepness_` + nextId + `' id='steepness_` + nextId + `' data-highlight='true' min='1' max='4' value='1'>
+
+          <input type='checkbox' name='sent_` + nextId + `' id='sent_` + nextId + `' value='1'> 
+          <label for='sent_` + nextId + `'>Sent</label>
+
+          <input type='checkbox' name='warmUp_` + nextId + `' id='warmUp_` + nextId + `' value='1'> 
+          <label for='warmUp_` + nextId + `'>WarmUp</label>
+          <label></label>
+          <label for='tiers_` + nextId + `'>Tries</label>
+          <input type='number' name='tries_` + nextId + `' id='tries_` + nextId + `' value='1'>
+
+          <label for='comment_` + nextId + `'>Comment</label>
+          <input type='text' name='comment_` + nextId + `' id='comment_` + nextId + `' value=''>
+      </div></div>
+    </div><!-- /grid-a -->
+</div>`;
+
+        $( "#set" ).append( content ).collapsibleset( "refresh" );
+        $("#set" + nextId ).enhanceWithin();
+        expand();
+      }
+      $("#add").click(function() {
+        add();
+      });
+      $( "#expand" ).click(function() {
+        $("#set").children(":last").collapsible( "expand" );
+      });
+      $( "#collapse" ).click(function() {
+        $( "#set" ).children( ":last" ).collapsible( "collapse" );
+      });
+      });
+      function expand(){
+        $("#set").children(":last").collapsible( "expand" );
+      }
+    </script>
+</div>
+<button type="button" data-icon="gear" data-iconpos="right" data-mini="true" data-inline="true" id="add">Add</button>
+<input type="submit" value="Submit">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message[1] }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </form>
+</body>

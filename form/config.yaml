@@ -1,0 +1,5 @@
+baseUrl: 'http://127.0.0.1:5000'
+dbServer: '10.200.200.1'
+dbUser: 'boulderLog'
+dbPw: "changeME"
+dbName: "logicalProgression"
