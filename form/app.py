@@ -16,7 +16,6 @@ import yaml
 #DEBUG = True
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.config['SECRET_KEY'] = 'changeME'
 
 with open("config.yaml", 'r') as stream:
     config = yaml.load(stream)
@@ -25,6 +24,7 @@ with open("config.yaml", 'r') as stream:
     app.config['dbUser'] = config['dbUser'] 
     app.config['dbPw'] = config['dbPw']
     app.config['dbName'] = config['dbName']
+    app.config['SECRET_KEY'] = config['appSecret']
  
 class ReusableForm(Form):
     date = DateField('date-1', validators=[validators.required()])

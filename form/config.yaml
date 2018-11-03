@@ -3,3 +3,4 @@ dbServer: '127.0.0.1'
 dbUser: 'boulderLog'
 dbPw: "changeME"
 dbName: "logicalProgression"
+appSecret: "changeME"
