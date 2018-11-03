@@ -1,0 +1,124 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: 192.168.178.100
+-- Generation Time: Nov 03, 2018 at 05:53 PM
+-- Server version: 10.2.18-MariaDB-1:10.2.18+maria~bionic
+-- PHP Version: 7.2.8
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `logicalProgression`
+--
+CREATE DATABASE IF NOT EXISTS `{{dbName}}` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `{{dbName}}`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `boulder`
+--
+
+CREATE TABLE IF NOT EXISTS `boulder` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `sessionID` int(11) DEFAULT NULL,
+  `grade` float DEFAULT NULL,
+  `tries` int(11) DEFAULT NULL,
+  `sent` int(11) DEFAULT NULL,
+  `warmUp` tinyint(1) NOT NULL,
+  `steepness` double DEFAULT NULL,
+  `holdType` text DEFAULT NULL,
+  `comment` text DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exersises`
+--
+
+CREATE TABLE IF NOT EXISTS `exersises` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text DEFAULT NULL,
+  `muscleGroup` text DEFAULT NULL,
+  `multiplier` double DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `holdTypes`
+--
+
+CREATE TABLE IF NOT EXISTS `holdTypes` (
+  `short` text DEFAULT NULL,
+  `longDE` text DEFAULT NULL,
+  `longEN` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `date` int(11) DEFAULT NULL,
+  `type` text DEFAULT NULL,
+  `climbDuration` int(11) DEFAULT NULL,
+  `trainingDuration` int(11) DEFAULT NULL,
+  `density` double DEFAULT NULL,
+  `sum` int(11) DEFAULT NULL,
+  `avgGrade` double DEFAULT NULL,
+  `avgSent` double DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `date` (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sets`
+--
+
+CREATE TABLE IF NOT EXISTS `sets` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `trainingID` int(11) NOT NULL,
+  `reps` int(11) NOT NULL,
+  `weight` double DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `training`
+--
+
+CREATE TABLE IF NOT EXISTS `training` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `sessionID` int(11) DEFAULT NULL,
+  `exersiseID` int(11) DEFAULT NULL,
+  `sets` int(11) DEFAULT NULL,
+  `comment` text DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
