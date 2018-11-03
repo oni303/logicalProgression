@@ -1,8 +1,12 @@
 version: '2' 
+networks:
+  logicalprogression:
+    driver: bridge
+
 services:
   logicalprogression:
     build:
-      context: .
+      context: ./
     container_name: logicalprogression 
     image: logicalprogression
     volumes:
@@ -12,3 +16,48 @@ services:
       - "5000:5000"
     labels:
       - "com.centurylinklabs.watchtower.enable=false"
+    networks:
+      logicalprogression:
+        aliases:
+          - flask.logicalprogression
+    volumes:
+      - ./config:/config
+    depends_on:
+      - logicalDB
+
+  logicalDB:
+    image: mariadb:10.2
+    user: "${UID}:${GID}"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      MYSQL_ROOT_PASSWORD: changeMe 
+      MYSQL_DATABASE: logicalprogression
+      PUID: ${UID}
+      PGID: ${UID}
+    restart: always
+    volumes:
+      - ./data:/var/lib/mysql
+    networks:
+      logicalprogression:
+        aliases:
+          - db.logicalprogression
+
+  phpmyadmin:
+    container_name: phpmyadmin 
+    image: phpmyadmin/phpmyadmin 
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=db.logicalprogression
+    networks:
+      logicalprogression:
+        aliases:
+          - admin.logicalprogression
+    depends_on:
+      - logicalDB

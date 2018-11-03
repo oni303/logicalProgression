@@ -1,6 +1,6 @@
 baseUrl: 'http://127.0.0.1:5000'
-dbServer: '127.0.0.1'
-dbUser: 'boulderLog'
+dbServer: 'db.logicalprogression'
+dbUser: 'logicalprogression'
 dbPw: "changeME"
 dbName: "logicalProgression"
 appSecret: "changeME"

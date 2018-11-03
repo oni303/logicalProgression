@@ -3,3 +3,4 @@ wtforms
 requests
 pymysql
 PyYAML
+jinja2

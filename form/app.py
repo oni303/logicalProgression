@@ -17,7 +17,7 @@ import yaml
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-with open("config.yaml", 'r') as stream:
+with open("/config/config.yaml", 'r') as stream:
     config = yaml.load(stream)
     app.config['baseUrl'] = config['baseUrl'] 
     app.config['dbServer'] = config['dbServer'] 
