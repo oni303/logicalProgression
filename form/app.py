@@ -105,15 +105,15 @@ if __name__ == "__main__":
     global dbPw 
     global dbName 
     with open("example.yaml", 'r') as stream:
-    try:
-        config = yaml.load(stream)
-        baseUrl = config['baseUrl'] 
-        dbServer = config['dbServer'] 
-        dbUser = config['dbuser'] 
-        dbPw = config['dbPw']
-        dbName = config['dbName']
+        try:
+            config = yaml.load(stream)
+            baseUrl = config['baseUrl'] 
+            dbServer = config['dbServer'] 
+            dbUser = config['dbuser'] 
+            dbPw = config['dbPw']
+            dbName = config['dbName']
 
-        app.run()
-    except yaml.YAMLError as exc:
-        print("ERROR: not able to load config")
-        sys.exit(-1)
+            app.run()
+        except yaml.YAMLError as exc:
+            print("ERROR: not able to load config")
+            sys.exit(-1)
