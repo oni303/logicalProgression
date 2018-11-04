@@ -43,8 +43,7 @@ services:
         aliases:
           - db.logicalprogression
 
-  phpmyadmin:
-    container_name: phpmyadmin 
+  logicalphpmyadmin:
     image: phpmyadmin/phpmyadmin 
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
