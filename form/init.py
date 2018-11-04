@@ -5,7 +5,6 @@ import subprocess
 with open('/docker-compose.yml') as dockerConfigFile:
     dockerConfig = yaml.load(dockerConfigFile)
     rootPW = dockerConfig['services']['logicalDB']['environment']['MYSQL_ROOT_PASSWORD']
-    print(rootPW)
     with open('/config/config.yaml') as configFile:
         config = yaml.load(configFile)
         with open('logicalProgression.mysql_schema.sql.template') as sqlSchemaFile:
