@@ -1,3 +1,8 @@
 GRANT USAGE ON *.* TO '{{user}}'@'%' IDENTIFIED BY '{{password}}';
 
 GRANT ALL PRIVILEGES ON `{{dbName}}`.* TO '{{user}}'@'%';
+
+GRANT USAGE ON *.* TO 'grafana'@'%' IDENTIFIED BY 'grafana';
+
+GRANT ALL SELECT ON `{{dbName}}`.* TO 'grafana'@'%';
+
