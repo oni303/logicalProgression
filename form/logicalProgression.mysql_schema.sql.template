@@ -118,6 +118,20 @@ CREATE TABLE IF NOT EXISTS `training` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 COMMIT;
 
+--
+-- Dumping data for table `holdTypes`
+--
+
+INSERT INTO `holdTypes` (`short`, `longDE`, `longEN`) VALUES
+('l', 'Leisten', 'Edge'),
+('v', 'Volumen', 'Volume'),
+('p', 'Pinches', 'Pinches'),
+('s', 'Sloper', 'Sloper'),
+('h', 'Hänkel', 'Jugs'),
+('c', 'Crimp', 'Crimp'),
+('f', 'Fingerloch', 'Pocket'),
+('u', 'Untergriff', 'Undercling');
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
