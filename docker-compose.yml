@@ -39,7 +39,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./data:/var/lib/mysql
     networks:
       logicalprogression:
         aliases:
@@ -60,5 +60,28 @@ services:
       logicalprogression:
         aliases:
           - admin.logicalprogression
+    depends_on:
+      - logicalDB
+
+  logicalgrafana:
+    image: grafana/grafana 
+    volumes:
+      - config/grafana:/etc/grafana
+      - data/grafana:/var/lib/grafana
+      - log/grafana:/var/log/grafana
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    user: "${UID}:${GID}"
+    ports:
+      - "3001:3000"
+    networks:
+      logicalprogression:
+        aliases:
+          - grafana.logicalprogression
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      - GF_SERVER_ROOT_URL=http://localhost
+      - GF_SECURITY_ADMIN_PASSWORD=changeMe
     depends_on:
       - logicalDB
