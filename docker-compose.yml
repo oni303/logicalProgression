@@ -66,9 +66,9 @@ services:
   logicalgrafana:
     image: grafana/grafana 
     volumes:
-      - config/grafana:/etc/grafana
-      - data/grafana:/var/lib/grafana
-      - log/grafana:/var/log/grafana
+      - ./config/grafana:/etc/grafana
+      - ./data/grafana:/var/lib/grafana
+      - ./log/grafana:/var/log/grafana
       - /etc/localtime:/etc/localtime:ro
     restart: always
     user: "${UID}:${GID}"
