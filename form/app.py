@@ -86,7 +86,7 @@ def addSession():
     session = json.loads(request.data.decode())
 
     dbc.execute('select ID from sessions where date=%s', (int(session['date']),))
-    dbSessions = dbc.fetchone()
+    dbSessions = dbSessions[0]
     if len(dbSessions) == 0:
         dbc.execute("insert into sessions(date,type,climbDuration) values (%s,%s,%s)",(int(session['date']),session['type'],int(session['duration'])))
         dbc.execute('select ID from sessions where date=%s', (str(session['date']),))
