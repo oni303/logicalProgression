@@ -83,5 +83,6 @@ services:
     environment:
       - GF_SERVER_ROOT_URL=http://localhost
       - GF_SECURITY_ADMIN_PASSWORD=changeMe
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,snuids-radar-panel
     depends_on:
       - logicalDB
