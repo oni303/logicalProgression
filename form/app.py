@@ -85,8 +85,11 @@ def addSession():
     dbc = db.cursor() 
     session = json.loads(request.data.decode())
 
-    dbc.execute("insert into sessions(date,type,climbDuration) values (%s,%s,%s)",(int(session['date']),session['type'],int(session['duration'])))
-    dbc.execute('select ID from sessions where date=%s', (str(session['date']),))
+    dbc.execute('select ID from sessions where date=%s', (int(session['date']),))
+    dbSession = dbc.fetchone()
+    if len(dbSession) == 0:
+        dbc.execute("insert into sessions(date,type,climbDuration) values (%s,%s,%s)",(int(session['date']),session['type'],int(session['duration'])))
+        dbc.execute('select ID from sessions where date=%s', (str(session['date']),))
     dbSessions = dbc.fetchone()[0]
     print(session)
     for route in session['routes']:
