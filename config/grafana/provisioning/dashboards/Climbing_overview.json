@@ -1,7 +1,7 @@
 {
   "__inputs": [
     {
-      "name": "DS_CLIMBING",
+      "name": "climbing",
       "label": "climbing",
       "description": "",
       "type": "datasource",
@@ -56,7 +56,7 @@
   "panels": [
     {
       "bgColor": null,
-      "datasource": "${DS_CLIMBING}",
+      "datasource": "climbing",
       "gridPos": {
         "h": 10,
         "w": 7,
@@ -126,7 +126,7 @@
     },
     {
       "bgColor": null,
-      "datasource": "${DS_CLIMBING}",
+      "datasource": "climbing",
       "gridPos": {
         "h": 10,
         "w": 7,
@@ -227,7 +227,7 @@
     },
     {
       "bgColor": null,
-      "datasource": "${DS_CLIMBING}",
+      "datasource": "climbing",
       "gridPos": {
         "h": 10,
         "w": 7,
@@ -296,7 +296,7 @@
     },
     {
       "bgColor": null,
-      "datasource": "${DS_CLIMBING}",
+      "datasource": "climbing",
       "gridPos": {
         "h": 11,
         "w": 7,
@@ -365,7 +365,7 @@
     },
     {
       "bgColor": null,
-      "datasource": "${DS_CLIMBING}",
+      "datasource": "climbing",
       "gridPos": {
         "h": 11,
         "w": 7,
@@ -469,7 +469,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_CLIMBING}",
+      "datasource": "climbing",
       "fill": 1,
       "gridPos": {
         "h": 9,
