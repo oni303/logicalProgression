@@ -90,6 +90,7 @@ def addSession():
     if dbSessions == None:
         dbc.execute("insert into sessions(date,type,climbDuration) values (%s,%s,%s)",(int(session['date']),session['type'],int(session['duration'])))
         dbc.execute('select ID from sessions where date=%s', (str(session['date']),))
+        dbSessions = dbc.fetchone()
     dbSessions = dbSessions[0]
     print(session)
     for route in session['routes']:
