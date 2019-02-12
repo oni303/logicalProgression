@@ -40,6 +40,7 @@ def hello():
  
         sessionType = request.form['sessionType']
         duration = request.form['sessionDuration']
+        trainDuration = request.form['trainingDuration']
 
         route = 1
         routes = []
@@ -72,7 +73,7 @@ def hello():
                 moreRoutes = False
         
         idate = int(time.mktime(datetime.datetime.strptime(date, "%Y-%m-%d").timetuple()))
-        session = {'date':idate, 'type':sessionType, 'duration':duration, 'routes':routes}
+        session = {'date':idate, 'type':sessionType, 'duration':duration, 'trainDuration':trainDuration, 'routes':routes}
         r = requests.put(app.config['baseUrl'] + '/session', data = json.dumps(session))
         flash('Saved ' + date)
 
@@ -88,7 +89,7 @@ def addSession():
     dbc.execute('select ID from sessions where date=%s', (int(session['date']),))
     dbSessions = dbc.fetchone()
     if dbSessions == None:
-        dbc.execute("insert into sessions(date,type,climbDuration) values (%s,%s,%s)",(int(session['date']),session['type'],int(session['duration'])))
+        dbc.execute("insert into sessions(date,type,climbDuration,trainingDuration) values (%s,%s,%s)",(int(session['date']),session['type'],int(session['duration']),int(session['trainDuration'])))
         dbc.execute('select ID from sessions where date=%s', (str(session['date']),))
         dbSessions = dbc.fetchone()
     dbSessions = dbSessions[0]
