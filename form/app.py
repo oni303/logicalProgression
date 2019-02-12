@@ -89,7 +89,7 @@ def addSession():
     dbc.execute('select ID from sessions where date=%s', (int(session['date']),))
     dbSessions = dbc.fetchone()
     if dbSessions == None:
-        dbc.execute("insert into sessions(date,type,climbDuration,trainingDuration) values (%s,%s,%s)",(int(session['date']),session['type'],int(session['duration']),int(session['trainDuration'])))
+        dbc.execute("insert into sessions(date,type,climbDuration,trainingDuration) values (%s,%s,%s,%s)",(int(session['date']),session['type'],int(session['duration']),int(session['trainDuration'])))
         dbc.execute('select ID from sessions where date=%s', (str(session['date']),))
         dbSessions = dbc.fetchone()
     dbSessions = dbSessions[0]
